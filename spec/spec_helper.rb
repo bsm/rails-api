@@ -11,24 +11,69 @@ require 'rspec'
 require 'bsm-rails-api'
 
 module TestApp
+  User = Struct.new(:kind, :roles)
 
   def self.routes
     @@routes ||= ActionDispatch::Routing::RouteSet.new.tap do |r|
       r.draw do
-        get "posts", to: "test_app/posts#index"
+        get "secure",           to: "test_app/secure#index"
+        get "secure/:id",       to: "test_app/secure#show"
+        put "secure/:id",       to: "test_app/secure#update"
+        delete "secure/:id",    to: "test_app/secure#destroy"
+        put "secure/:id/fails", to: "test_app/secure#insecure"
       end
     end
   end
 
-  class PostsController < ActionController::Base
-    include TestApp.routes.url_helpers
-    include BSM::RailsAPI::Authorization
+  def self.client(roles = ["A"])
+    User.new :client, roles
+  end
 
-    def index
-      render text: "OK"
+  def self.employee(roles = ["X"])
+    User.new :employee, roles
+  end
+
+  class ApplicationController < ActionController::Base
+    attr_accessor :current_user
+
+    def current_user
+      @current_user ||= TestApp.employee
     end
   end
 
+  class SecureController < ApplicationController
+    include TestApp.routes.url_helpers
+    include BSM::RailsAPI::Authorization
+
+    permit_access :read,
+      client: ['A'],
+      employee: :all
+    permit_access :manage,
+      employee: ['X']
+    permit_access :destroy,
+      employee: ['Z']
+
+    def index
+      render text: "INDEX"
+    end
+
+    def show
+      render text: "SHOW"
+    end
+
+    def update
+      render text: "UPDATE"
+    end
+
+    def destroy
+      render text: "DESTROY"
+    end
+
+    def insecure
+      render text: "INSECURE"
+    end
+
+  end
 end
 
 module RSpec::SetupAndTeardownAdapter
