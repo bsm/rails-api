@@ -12,7 +12,7 @@ Gem::Specification.new do |s|
   s.authors     = ["Dimitrij Denissenko"]
   s.email       = "dimitrij@blacksqaremedia.com"
   s.homepage    = "https://github.com/bsm/rails-api"
-  s.licenses    = ["proprietary"]
+  s.licenses    = ["MIT"]
 
   s.require_path = 'lib'
   s.files        = Dir['lib/**/*']
