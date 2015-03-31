@@ -35,7 +35,7 @@ module BSM::RailsAPI::Authorization
         end
       end.flatten.uniq
 
-      before_filter only: acts do |ctrl|
+      before_action only: acts do |ctrl|
         user = ctrl.send(:current_user)
         ctrl.send :unauthorized! unless user
 
