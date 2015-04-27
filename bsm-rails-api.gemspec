@@ -7,7 +7,7 @@ Gem::Specification.new do |s|
   s.name        = "bsm-rails-api"
   s.summary     = "BSM's Rails API helpers"
   s.description = ""
-  s.version     = '0.2.1'
+  s.version     = '0.2.2'
 
   s.authors     = ["Dimitrij Denissenko"]
   s.email       = "dimitrij@blacksqaremedia.com"

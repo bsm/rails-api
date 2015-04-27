@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    bsm-rails-api (0.2.1)
+    bsm-rails-api (0.2.2)
       actionpack
       activesupport
       railties (>= 4.2.0, < 5.0.0)

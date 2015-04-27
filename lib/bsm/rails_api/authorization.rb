@@ -1,5 +1,3 @@
-require 'active_support/concern'
-
 module BSM::RailsAPI::Authorization
   extend ActiveSupport::Concern
 
@@ -36,11 +34,12 @@ module BSM::RailsAPI::Authorization
       end.flatten.uniq
 
       before_action only: acts do |ctrl|
-        user = ctrl.send(:current_user)
-        ctrl.send :unauthorized! unless user
-
-        reqs = opts[user.kind.to_sym]
-        ctrl.send :unauthorized! if reqs != :all && (Array.wrap(reqs) & user.roles).empty?
+        if user = ctrl.send(:current_user)
+          reqs = opts[user.kind.to_sym]
+          ctrl.send :unauthorized! if reqs != :all && (Array.wrap(reqs) & user.roles).empty?
+        else
+          ctrl.send :unauthorized!
+        end
         ctrl.send :instance_variable_set, :@_bsm_rails_api_authorized, true
       end unless acts.empty?
     end

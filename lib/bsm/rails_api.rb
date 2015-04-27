@@ -1,3 +1,5 @@
+require 'active_support/concern'
+
 module BSM
   module RailsAPI
   end
