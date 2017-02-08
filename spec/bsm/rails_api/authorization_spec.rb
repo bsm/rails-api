@@ -35,19 +35,19 @@ describe BSM::RailsAPI::Authorization do
 
     it 'should permit access when role requirements are met' do
       @controller.current_user = TestApp.employee(["X"])
-      put :update, id: 1
+      put :update, params: { id: 1 }
       expect(response).to be_ok
     end
 
     it 'should reject access when role missing' do
       @controller.current_user = TestApp.employee(["Y"])
-      put :update, id: 1
+      put :update, params: { id: 1 }
       expect(response).to be_forbidden
     end
 
     it 'should reject access when kind forbidden' do
       @controller.current_user = TestApp.client(["A"])
-      put :update, id: 1
+      put :update, params: { id: 1 }
       expect(response).to be_forbidden
     end
 
@@ -57,19 +57,19 @@ describe BSM::RailsAPI::Authorization do
 
     it 'should permit access when role requirements are met' do
       @controller.current_user = TestApp.employee(["Z"])
-      delete :destroy, id: 1
+      delete :destroy, params: { id: 1 }
       expect(response).to be_ok
     end
 
     it 'should reject access when role missing' do
       @controller.current_user = TestApp.employee(["X"])
-      delete :destroy, id: 1
+      delete :destroy, params: { id: 1 }
       expect(response).to be_forbidden
     end
 
     it 'should reject access when kind forbidden' do
       @controller.current_user = TestApp.client(["A"])
-      delete :destroy, id: 1
+      delete :destroy, params: { id: 1 }
       expect(response).to be_forbidden
     end
 
@@ -79,7 +79,7 @@ describe BSM::RailsAPI::Authorization do
 
     it 'should error' do
       @controller.current_user = TestApp.employee(["Z"])
-      expect(-> { put :insecure, id: 1 }).to raise_error(BSM::RailsAPI::Authorization::NotSecure)
+      expect(-> { put :insecure, params: { id: 1 } }).to raise_error(BSM::RailsAPI::Authorization::NotSecure)
     end
 
   end

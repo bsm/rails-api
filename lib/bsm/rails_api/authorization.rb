@@ -5,7 +5,7 @@ module BSM::RailsAPI::Authorization
   end
 
   included do
-    after_filter :ensure_permit_access_authorized!
+    after_action :ensure_permit_access_authorized!
   end
 
   class_methods do
@@ -50,7 +50,7 @@ module BSM::RailsAPI::Authorization
 
     # Render a 403
     def unauthorized!
-      render text: "Unauthorized", status: 403
+      render plain: "Unauthorized", status: 403
     end
 
   private

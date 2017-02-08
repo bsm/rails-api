@@ -54,23 +54,23 @@ module TestApp
       employee: ['Z']
 
     def index
-      render text: "INDEX"
+      render plain: "INDEX"
     end
 
     def show
-      render text: "SHOW"
+      render plain: "SHOW"
     end
 
     def update
-      render text: "UPDATE"
+      render plain: "UPDATE"
     end
 
     def destroy
-      render text: "DESTROY"
+      render plain: "DESTROY"
     end
 
     def insecure
-      render text: "INSECURE"
+      render plain: "INSECURE"
     end
 
   end
